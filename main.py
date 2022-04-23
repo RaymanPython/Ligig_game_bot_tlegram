@@ -416,24 +416,23 @@ def record(update, context):
     update.message.reply_text(str(rec)[1:-1])
 
 
+
 class Driver:
 
     def __init__(self):
-        self.url = ''
+       self.URL = 'http://127.0.0.1:5000/'
 
     def prob(self, update, context):
         global INFO
-        print(update)
-        INFO.append_person(update, context)
-        print(context.bot_data['a'])
+        print(type(update))
                                                                                                                                 
-    def save(self, update, context):
+    def save(self, update, context=None):
         global INFO
-        requests.post(self.url)
+        response = requests.post(self.url + 'users/' + get_name(update))
 
     def get(self, update, context):
         global INFO
-        requests.get(self.url)
+        response = requests.get(self.url + 'users/' + get_name(update))
        
        
 
