@@ -6,6 +6,8 @@ import sqlite3
 app = Flask(__name__)
 
 NAME_FILE = 'main.db'
+
+
 def create_users_table():
     conn = sqlite3.connect(NAME_FILE)
     cursor = conn.cursor()
@@ -16,12 +18,14 @@ def create_users_table():
     cursor.execute(sql)
     conn.commit()
 
+
 def insert_into_users_table(username):
     conn = sqlite3.connect(NAME_FILE)
     cursor = conn.cursor()
     sql = "INSERT INTO USERS (USERNAME) VALUES(?)"
-    cursor.execute(sql, (username, ))
+    cursor.execute(sql, (username,))
     conn.commit()
+
 
 def get_user_from_users_table(username):
     conn = sqlite3.connect(NAME_FILE)
@@ -31,11 +35,13 @@ def get_user_from_users_table(username):
     conn.close()
     return user
 
+
 @app.route('/')
 def index():
     return 'Hello world!'
 
-@app.route('/users/<username>', methods = ['GET', 'POST'])
+
+@app.route('/users/<username>', methods=['GET', 'POST'])
 def user(username):
     user = get_user_from_users_table(username)
     if request.method == 'GET':
@@ -51,10 +57,12 @@ def user(username):
     else:
         abort(405)
 
+
 @app.before_first_request
 def startup():
     create_users_table()
     insert_into_users_table('RayGammi')
+
 
 if __name__ == "__main__":
     app.run()
